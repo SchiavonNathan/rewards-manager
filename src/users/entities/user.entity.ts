@@ -1,9 +1,12 @@
+import { Team } from 'src/teams/entities/team.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
 export type UserRole = "USER" | "ADM";
@@ -43,4 +46,7 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
   updatedAt: Date;
+
+  @ManyToOne(() => Team, (team) => team.users)
+  team: Team;
 }

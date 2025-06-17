@@ -1,9 +1,11 @@
+import { Team } from 'src/teams/entities/team.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity({ name: 'rewards' })
@@ -28,4 +30,7 @@ export class Reward {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
   updatedAt: Date;
+
+  @ManyToOne(() => Team, (team) => team.rewards)
+  team: Team;
 }
