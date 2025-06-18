@@ -5,6 +5,7 @@ import { TeamsModule } from './teams/teams.module';
 import { MissionsModule } from './missions/missions.module';
 import { RewardsModule } from './rewards/rewards.module';
 import { SubmissionModule } from './submission/submission.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SubmissionModule } from './submission/submission.module';
     MissionsModule,
     RewardsModule,
     SubmissionModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
