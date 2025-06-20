@@ -36,6 +36,7 @@ export class MissionsService {
       order: {
         createdAt: 'DESC',
       },
+      relations: ['team'],
     });
   }
 
