@@ -42,12 +42,26 @@ export class UsersService {
 
   async findAll(): Promise<Omit<User, 'password'>[]> {
     return this.usersRepository.find({
-      select: ['id', 'name', 'username', 'email', 'role', 'points', 'isActive', 'createdAt', 'updatedAt'],
+      select: [
+        'id',
+        'name',
+        'username',
+        'email',
+        'role',
+        'points',
+        'isActive',
+        'createdAt',
+        'updatedAt',
+      ],
+      relations: ['team'],
     });
   }
 
   async findOne(id: string): Promise<User> {
-    const user = await this.usersRepository.findOne({ where: { id }, relations: ['team'] });
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['team'],
+    });
     if (!user) {
       throw new NotFoundException(`Usuário com ID "${id}" não encontrado.`);
     }
@@ -59,9 +73,11 @@ export class UsersService {
     const user = await this.usersRepository.findOne({ where: { username } });
 
     if (!user) {
-      throw new NotFoundException(`Usuário com username "${username}" não encontrado.`);
+      throw new NotFoundException(
+        `Usuário com username "${username}" não encontrado.`,
+      );
     }
-    
+
     return user;
   }
 
@@ -69,16 +85,21 @@ export class UsersService {
     const user = await this.usersRepository.findOne({ where: { email } });
 
     if (!user) {
-      throw new NotFoundException(`Usuário com email "${email}" não encontrado.`);
+      throw new NotFoundException(
+        `Usuário com email "${email}" não encontrado.`,
+      );
     }
-    
+
     return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     if (updateUserDto.password) {
-        const saltRounds = 10;
-        updateUserDto.password = await bcrypt.hash(updateUserDto.password, saltRounds);
+      const saltRounds = 10;
+      updateUserDto.password = await bcrypt.hash(
+        updateUserDto.password,
+        saltRounds,
+      );
     }
 
     const user = await this.usersRepository.preload({
@@ -96,7 +117,10 @@ export class UsersService {
   async remove(id: string): Promise<{ deleted: boolean; message: string }> {
     const user = await this.findOne(id);
     await this.usersRepository.remove(user);
-    
-    return { deleted: true, message: `Usuário com ID "${id}" removido com sucesso.` };
+
+    return {
+      deleted: true,
+      message: `Usuário com ID "${id}" removido com sucesso.`,
+    };
   }
 }

@@ -1,4 +1,4 @@
 export class CreateTeamDto {
-    name: string;
-    isActive?: boolean;
+  name: string;
+  isActive?: boolean;
 }

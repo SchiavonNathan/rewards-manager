@@ -34,7 +34,7 @@ export class RewardsService {
   async findAll(): Promise<Reward[]> {
     return this.rewardsRepository.find({
       order: {
-        points_cost: 'ASC', 
+        points_cost: 'ASC',
       },
     });
   }

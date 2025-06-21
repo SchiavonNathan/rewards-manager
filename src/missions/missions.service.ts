@@ -50,7 +50,10 @@ export class MissionsService {
     return mission;
   }
 
-  async update(id: string, updateMissionDto: UpdateMissionDto): Promise<Mission> {
+  async update(
+    id: string,
+    updateMissionDto: UpdateMissionDto,
+  ): Promise<Mission> {
     const mission = await this.missionsRepository.preload({
       id: id,
       ...updateMissionDto,

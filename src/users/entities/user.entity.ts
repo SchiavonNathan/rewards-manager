@@ -9,7 +9,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-export type UserRole = "USER" | "ADM";
+export type UserRole = 'USER' | 'ADM';
 
 @Entity({ name: 'users' })
 export class User {

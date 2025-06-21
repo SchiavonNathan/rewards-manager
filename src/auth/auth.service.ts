@@ -4,9 +4,7 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   async validateUser(loginDto: LoginDto): Promise<any> {
     const user = await this.usersService.findOneByEmail(loginDto.email);
@@ -23,5 +21,4 @@ export class AuthService {
     }
     return null;
   }
-
 }
