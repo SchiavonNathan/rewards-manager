@@ -21,7 +21,7 @@ export class SubmissionService {
     const submission = this.submissionRepository.create({
       user: { id: userId },
       mission: { id: missionId },
-      filePath: fileName,
+      filePath: `/uploads/submissions/${fileName}`,
     });
 
     return this.submissionRepository.save(submission);

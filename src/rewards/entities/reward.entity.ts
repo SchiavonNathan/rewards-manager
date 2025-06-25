@@ -19,6 +19,9 @@ export class Reward {
   @Column({ length: 255 })
   description: string;
 
+  @Column({ name: 'file_path', length: 255 })
+  filePath: string;
+
   @Column({ type: 'integer', default: 0 })
   points_cost: number;
 

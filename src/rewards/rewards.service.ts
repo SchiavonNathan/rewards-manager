@@ -16,7 +16,10 @@ export class RewardsService {
     private readonly rewardsRepository: Repository<Reward>,
   ) {}
 
-  async create(createRewardDto: CreateRewardDto): Promise<Reward> {
+  async create(
+    createRewardDto: CreateRewardDto,
+    fileName: string,
+  ): Promise<Reward> {
     const existingReward = await this.rewardsRepository.findOneBy({
       name: createRewardDto.name,
     });
@@ -30,6 +33,7 @@ export class RewardsService {
     const reward = this.rewardsRepository.create({
       ...createRewardDto,
       team: { id: createRewardDto.teamId },
+      filePath: `/uploads/rewards/${fileName}`,
     });
     return this.rewardsRepository.save(reward);
   }
