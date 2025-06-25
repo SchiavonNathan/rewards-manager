@@ -21,8 +21,25 @@ export class SubmissionController {
   constructor(private readonly submissionService: SubmissionService) {}
 
   @Post()
-  create(@Body() createSubmissionDto: CreateSubmissionDto) {
-    return this.submissionService.create(createSubmissionDto);
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/submissions',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          const filename = `${uniqueSuffix}${ext}`;
+          cb(null, filename);
+        },
+      }),
+    }),
+  )
+  create(
+    @Body() createSubmissionDto: CreateSubmissionDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.submissionService.create(createSubmissionDto, file.filename);
   }
 
   @Get()

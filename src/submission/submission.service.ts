@@ -12,12 +12,16 @@ export class SubmissionService {
     private readonly submissionRepository: Repository<Submission>,
   ) {}
 
-  async create(createSubmissionDto: CreateSubmissionDto): Promise<Submission> {
+  async create(
+    createSubmissionDto: CreateSubmissionDto,
+    fileName: string,
+  ): Promise<Submission> {
     const { userId, missionId } = createSubmissionDto;
 
     const submission = this.submissionRepository.create({
       user: { id: userId },
       mission: { id: missionId },
+      filePath: fileName,
     });
 
     return this.submissionRepository.save(submission);

@@ -14,6 +14,9 @@ export class Submission {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ name: 'file_path', length: 255 })
+  filePath: string;
+
   @Column({ name: 'is_active', default: true })
   isActive: boolean;
 
