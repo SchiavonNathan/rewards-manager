@@ -1,3 +1,4 @@
+import { Submission } from 'src/submission/entities/submission.entity';
 import { Team } from 'src/teams/entities/team.entity';
 import {
   Entity,
@@ -49,4 +50,7 @@ export class User {
 
   @ManyToOne(() => Team, (team) => team.users)
   team: Team;
+
+  @OneToMany(() => Submission, (submission) => submission.user)
+  submissions: Submission[];
 }

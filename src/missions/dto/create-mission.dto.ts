@@ -3,4 +3,5 @@ export class CreateMissionDto {
   description: string;
   points: number;
   isActive?: boolean;
+  teamId: string;
 }

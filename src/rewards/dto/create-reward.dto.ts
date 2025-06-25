@@ -3,4 +3,5 @@ export class CreateRewardDto {
   description: string;
   points_cost: number;
   isActive?: boolean;
+  teamId: string;
 }

@@ -27,7 +27,10 @@ export class MissionsService {
       );
     }
 
-    const mission = this.missionsRepository.create(createMissionDto);
+    const mission = this.missionsRepository.create({
+      ...createMissionDto,
+      team: { id: createMissionDto.teamId },
+    });
     return this.missionsRepository.save(mission);
   }
 

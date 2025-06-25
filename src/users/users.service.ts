@@ -35,6 +35,7 @@ export class UsersService {
     const newUser = this.usersRepository.create({
       ...createUserDto,
       password: hashedPassword,
+      team: { id: createUserDto.teamId },
     });
 
     return this.usersRepository.save(newUser);

@@ -1,1 +1,4 @@
-export class CreateSubmissionDto {}
+export class CreateSubmissionDto {
+  userId: string;
+  missionId: string;
+}

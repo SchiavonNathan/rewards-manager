@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
+import { Submission } from './entities/submission.entity';
 
 @Injectable()
 export class SubmissionService {
-  create(createSubmissionDto: CreateSubmissionDto) {
-    return 'This action adds a new submission';
+  constructor(
+    @InjectRepository(Submission)
+    private readonly submissionRepository: Repository<Submission>,
+  ) {}
+
+  async create(createSubmissionDto: CreateSubmissionDto): Promise<Submission> {
+    const { userId, missionId } = createSubmissionDto;
+
+    const submission = this.submissionRepository.create({
+      user: { id: userId },
+      mission: { id: missionId },
+    });
+
+    return this.submissionRepository.save(submission);
   }
 
-  findAll() {
-    return `This action returns all submission`;
+  findAll(): Promise<Submission[]> {
+    return this.submissionRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} submission`;
+  async findOne(id: string): Promise<Submission> {
+    const submission = await this.submissionRepository.findOneBy({ id });
+    if (!submission) {
+      throw new NotFoundException(`Submissão com ID "${id}" não encontrada.`);
+    }
+    return submission;
   }
 
-  update(id: number, updateSubmissionDto: UpdateSubmissionDto) {
-    return `This action updates a #${id} submission`;
+  async update(
+    id: string,
+    updateSubmissionDto: UpdateSubmissionDto,
+  ): Promise<Submission> {
+    const submission = await this.submissionRepository.preload({
+      id,
+      ...updateSubmissionDto,
+    });
+
+    if (!submission) {
+      throw new NotFoundException(`Submissão com ID "${id}" não encontrada.`);
+    }
+
+    return this.submissionRepository.save(submission);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} submission`;
+  async remove(id: string): Promise<Submission> {
+    const submission = await this.findOne(id);
+    return this.submissionRepository.remove(submission);
   }
 }

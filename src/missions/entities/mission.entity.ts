@@ -1,3 +1,4 @@
+import { Submission } from 'src/submission/entities/submission.entity';
 import { Team } from 'src/teams/entities/team.entity';
 import {
   Entity,
@@ -6,6 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'missions' })
@@ -33,4 +35,7 @@ export class Mission {
 
   @ManyToOne(() => Team, (team) => team.missions)
   team: Team;
+
+  @OneToMany(() => Submission, (submission) => submission.mission)
+  submissions: Submission[];
 }

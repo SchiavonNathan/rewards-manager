@@ -27,7 +27,10 @@ export class RewardsService {
       );
     }
 
-    const reward = this.rewardsRepository.create(createRewardDto);
+    const reward = this.rewardsRepository.create({
+      ...createRewardDto,
+      team: { id: createRewardDto.teamId },
+    });
     return this.rewardsRepository.save(reward);
   }
 
